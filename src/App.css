@@ -1,3 +1,7 @@
+body {
+  background-color: #282c34;
+}
+
 .App {
   text-align: center;
 }
@@ -15,7 +19,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,3 +40,52 @@
     transform: rotate(360deg);
   }
 }
+
+.items {
+  display: flex;
+  flex-wrap: wrap;
+  width: 800px;
+}
+
+.items > .item {
+  flex-grow: 1;
+  width: 30%;
+}
+
+.item {
+  border: 1px solid #505050;
+  width: 280px;
+  height: 160px;
+  padding-top: 5px;
+  overflow: auto;
+}
+
+.item .image {
+  float: left;
+  margin-left: 10px;
+}
+
+.item .image img {
+  width: 100%;
+}
+
+.item .details {
+  float: left;
+  text-align: left;
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.details strong, .details small {
+  display: block;
+}
+
+.details button {
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: 1px solid #df7d2d;
+  color: #994a0a;
+  font-weight: bold;
+}
+
