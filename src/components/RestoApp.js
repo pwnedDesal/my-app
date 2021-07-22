@@ -68,32 +68,26 @@ class RestoApp extends React.Component {
     }
 
     handleOrder = (order) => {
-        alert(order.name)
 
-        let quantity = 1
-
-        const checkOrder = this.state.orders.filter(row =>
+        const getOrder = this.state.orders.filter(row =>
             row.id === order.id  
         )
-
-        const sameOrder = checkOrder.length > 0
-
-        const newOrder = {
-            ...order,
-            quantity
-        }
+        const isNewOrder = getOrder.length === 0
 
         const copyOrders = this.state.orders
-        if (sameOrder) {
-            quantity = checkOrder[0].quantity + 1
+        if (isNewOrder) {
+            const newOrder = {
+                ...order,
+                quantity: 1
+            }            
+            copyOrders.push(newOrder)
+        } else {
             copyOrders.map(row => {
                 if (row.id === order.id) {
-                    row.quantity = quantity
+                    row.quantity = getOrder[0].quantity + 1
                 }
                 return row
-            })
-        } else {
-            copyOrders.push(newOrder)
+            })            
         }
 
         this.setState({orders: copyOrders})
@@ -112,20 +106,28 @@ class RestoApp extends React.Component {
         )
 
         return (
-            <>
-                <h1>Restaurant App</h1>
+            <div>
+                <h1 className="text-2xl py-7 text-center">Restaurant App</h1>            
                 <AddItemForm addItem={this.addItem} />
-                <div className="items">
-                    {items}
+                <div className="grid grid-cols-2 gap-2 divide-x-2">
+                    <div className="p-2">
+                        <h3>Items</h3>
+                        <div className="grid grid-cols-3 gap-0 place-items-center">
+                            {items}
+                        </div>
+                    </div>
+                    <div className="pt-2 pl-4">
+                        <h3>Cart</h3>
+                        {orders.length > 0
+                        ?
+                        <div className="grid grid-cols-3 gap-0 place-items-center">
+                            {orders}
+                        </div>
+                        : <h3 className="text-center">Your cart is empty</h3>
+                        }
+                    </div>
                 </div>
-                <hr />
-                <h3>Cart</h3>                
-                <div>
-                <div className="items">
-                    {orders}
-                </div>
-                </div>
-            </>
+            </div>
         )
 
     }
