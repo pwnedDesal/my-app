@@ -1,4 +1,18 @@
-const InputField = ({className, type, label, name, value, onChange}) => {
+const InputField = ({
+  className,
+  type,
+  label,
+  name,
+  value,
+  onChange,
+  invalid = false,
+  invalidMessage = ""
+}) => {
+
+  let inputClasses = "h-6 mt-1 text-gray-200 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm bg-gray-500 border-gray-600 rounded-md"
+  if (invalid) {
+    inputClasses += " border-red-500 border-2"
+  }
 
   return (
     <div className={className}>
@@ -14,8 +28,13 @@ const InputField = ({className, type, label, name, value, onChange}) => {
         id={name}
         value={value}
         onChange={onChange}
-        className="h-6 mt-1 text-gray-200 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm bg-gray-500 border-gray-600 rounded-md"
+        className={inputClasses}
         />
+        { invalid &&
+            <span className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+                {invalidMessage}
+            </span>
+        }         
     </div>
   )
 

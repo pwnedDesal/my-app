@@ -1,16 +1,9 @@
 import { useState } from 'react';
 
-import TaskRow from './components/TaskRow'
-
-import ButtonOutlined from './components/ButtonOutlined'
-import InputField from './components/InputField'
+import TodoForm from './Todos/TodoForm';
+import TaskRow from './Todos/TaskRow'
 
 const Todos = () => {
-
-  const initTask = {
-    name: '',
-    status: ''    
-  }
 
   const [tasks, setTasks] = useState([
     {name: "eat", status: "pending"},
@@ -18,13 +11,11 @@ const Todos = () => {
     {name: "sleep", status: "done"},    
   ])
 
-  const [task, setTask]= useState({...initTask})
+  const addTask = (task) => {
 
-  const addTask = () => {
     const tasksCopy = [...tasks]
     tasksCopy.push(task)
 
-    setTask(initTask)
     setTasks(tasksCopy)
   }
 
@@ -50,14 +41,6 @@ const Todos = () => {
 
   }
 
-  const handleChange = (e) => {
-    const newTask = {
-      name: e.target.value,
-      status: "pending"
-    }
-    setTask(newTask)
-  }
-
   const pendingTasks = tasks
     .filter(task => task.status === "pending")
     .map((task, i) => 
@@ -74,20 +57,7 @@ const Todos = () => {
     <div>
       <p className="mt-20 text-2xl text-center">Todos App</p>
       <div className="rounded-lg w-3/4 mx-auto mt-10 flex">
-        <div className="bg-gray-800 rounded-lg w-1/3 mr-2 p-3 text-center">
-          <p className="mb-2">New Task</p>
-          <InputField
-              className=""
-              type="text"
-              label="Task Name"
-              name="task"
-              value={task.name}
-              onChange={handleChange}
-          />
-          <ButtonOutlined className="mt-4" onClick={addTask}>
-            +Add Task
-          </ButtonOutlined>
-        </div>
+        <TodoForm addTask={addTask} />
         { pendingTasks.length > 0
           ?
           <div className="bg-gray-800 rounded-lg w-1/3 mr-2 p-3">

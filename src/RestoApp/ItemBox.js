@@ -1,4 +1,4 @@
-import ButtonOutlined from './ButtonOutlined'
+import ButtonOutlined from '../components/ButtonOutlined'
 
 const ItemBox = ({item, handleOrder, editItem, deleteItem}) => {
 
@@ -13,7 +13,7 @@ const ItemBox = ({item, handleOrder, editItem, deleteItem}) => {
                 <div className="text-lg font-medium">{name}</div>
                 <p className="text-sm">{category}</p>
                 <p className="text-sm">Php {price}</p>
-                <ButtonOutlined className="mt-2" onClick={() => handleOrder(item)}>Order</ButtonOutlined>
+                <ButtonOutlined className="mt-2 mr-1" onClick={() => handleOrder(item)}>Order</ButtonOutlined>
                 <ButtonOutlined className="mt-2" onClick={() => editItem(item)}>Edit</ButtonOutlined>
                 <ButtonOutlined className="mt-2" onClick={() => deleteItem(item.id)}>Delete</ButtonOutlined>
             </div>

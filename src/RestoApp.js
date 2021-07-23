@@ -1,8 +1,10 @@
 import { useState } from 'react'
 
-import ItemBox from './components/ItemBox'
-import OrderBox from './components/OrderBox'
-import ItemForm from './components/ItemForm'
+import ItemBox from './RestoApp/ItemBox'
+import OrderBox from './RestoApp/OrderBox'
+import ItemForm from './RestoApp/ItemForm'
+
+import ButtonSecondary from './components/ButtonSecondary'
 
 const RestoApp = () => {
 
@@ -169,7 +171,12 @@ const RestoApp = () => {
         <div>
             <h1 className="text-2xl py-7 text-center">Restaurant App</h1>            
             <ItemForm addItem={addItem} updateItem={updateItem} item={item} onEdit={onEdit} cancel={cancel} />
-            <div className="mt-10 grid grid-cols-2 gap-2 divide-x-2">
+            <div className="mt-4">
+                <ButtonSecondary className="mr-2" onClick={() => setFilter('All')}>All</ButtonSecondary>
+                <ButtonSecondary className="mr-2" onClick={() => setFilter('Food')}>Food</ButtonSecondary>
+                <ButtonSecondary onClick={() => setFilter('Drink')}>Drink</ButtonSecondary>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2 divide-x-2">
                 <div className="p-2">
                     <h3 className="text-gray-300">Items</h3>
                     <div className="grid grid-cols-3 gap-0 place-items-center">

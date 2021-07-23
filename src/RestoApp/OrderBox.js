@@ -1,4 +1,4 @@
-import ButtonOutlined from './ButtonOutlined'
+import ButtonOutlined from '../components/ButtonOutlined'
 
 const ItemBox = ({item, deleteOrder}) => {
 
