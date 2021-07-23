@@ -1,12 +1,14 @@
 // import logo from './logo.svg';
 // import './App.css';
 import './index.css';
-import RestoApp from './components/RestoApp'
+
+import RestoApp from './RestoApp'
+// import Todos from './Todos'
 
 function App() {
 
   return (
-    <div className="p-4">
+    <div className="box-border p-4">
       <RestoApp />
     </div>
   );

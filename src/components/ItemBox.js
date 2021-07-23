@@ -1,32 +1,24 @@
-import React from 'react';
+import ButtonOutlined from './ButtonOutlined'
 
-import Button from './Button'
+const ItemBox = ({item, handleOrder, editItem, deleteItem}) => {
 
-class ItemBox extends React.Component {
+    const { image, name, category, price } = item
 
-    handleOrder = (order) => {
-        this.props.handleOrder(order)
-    }
-
-    render() {
-
-        const { item: { image, name, category, price } } = this.props
-
-        return (
-            <div className="flex p-1 w-44 my-2 bg-gray-700 rounded-xl shadow-md items-center space-x-4">
-                <div className="flex-shrink-0">
-                    <img className="h-14 w-14" src={image} alt={name} />
-                </div>
-                <div className="text-gray-300">
-                    <div className="text-lg font-medium">{name}</div>
-                    <p className="text-sm">{category}</p>
-                    <p className="text-sm">Php {price}</p>
-                    <Button className="mt-2" onClick={() => this.handleOrder(this.props.item)}>Order</Button>
-                </div>
+    return (
+        <div className="flex p-1 w-44 my-2 bg-gray-700 rounded-xl shadow-md items-center space-x-4">
+            <div className="flex-shrink-0">
+                <img className="h-14 w-14" src={image} alt={name} />
             </div>
-        )
-
-    }
+            <div className="text-gray-300">
+                <div className="text-lg font-medium">{name}</div>
+                <p className="text-sm">{category}</p>
+                <p className="text-sm">Php {price}</p>
+                <ButtonOutlined className="mt-2" onClick={() => handleOrder(item)}>Order</ButtonOutlined>
+                <ButtonOutlined className="mt-2" onClick={() => editItem(item)}>Edit</ButtonOutlined>
+                <ButtonOutlined className="mt-2" onClick={() => deleteItem(item.id)}>Delete</ButtonOutlined>
+            </div>
+        </div>
+    )
 
 }
 
