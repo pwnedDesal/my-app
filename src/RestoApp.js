@@ -3,8 +3,9 @@ import { useState } from 'react'
 import ItemBox from './RestoApp/ItemBox'
 import OrderBox from './RestoApp/OrderBox'
 import ItemForm from './RestoApp/ItemForm'
+import Pagination from './components/Pagination'
 
-import ButtonSecondary from './components/ButtonSecondary'
+import Filters from './RestoApp/Filters'
 
 const RestoApp = () => {
 
@@ -64,11 +65,15 @@ const RestoApp = () => {
             category: "Drink",
             status: 'active',
             image: "https://image.flaticon.com/icons/svg/1046/1046792.svg"
-        },
+        },        
     ])
     const [orders, setOrders] = useState([])
     const [onEdit, setOnEdit] = useState(false)
     const [filter, setFilter] = useState('All')
+    const [search, setSearch] = useState('')
+    const [page, setPage] = useState(0)
+
+    const perPage = 6
 
     const addItem = (formItem) => {
         const copyItems = [...items]
@@ -149,6 +154,7 @@ const RestoApp = () => {
         itemsCopy.splice(index,1)
 
         setItems(itemsCopy)
+        if (itemsCopy.length<=perPage) setPage(0)
 
     }
 
@@ -159,9 +165,27 @@ const RestoApp = () => {
 
     const filteredItems = (filter==="All") ? [...items] : items.filter(item => item.category === filter)
 
-    const itemsDisplay = filteredItems.map(item => 
-        <ItemBox item={item} handleOrder={handleOrder} editItem={editItem} deleteItem={deleteItem} key={item.id} />
+    const itemsDisplay = filteredItems.filter(item => 
+        search===""
+        ?
+        true
+        :
+        item.name.toLowerCase().includes(search.toLowerCase()))
+        .map(item => 
+            <ItemBox
+                item={item}
+                handleOrder={handleOrder}
+                editItem={editItem}
+                deleteItem={deleteItem}
+                key={item.id}
+            />
     )
+
+    let start = page * perPage
+    let end = start + perPage
+    const paginatedDisplay = itemsDisplay.slice(start,end)
+    let totalPages = Math.ceil(itemsDisplay.length / perPage)
+    if (itemsDisplay.length<perPage) totalPages = 1
 
     const ordersDisplay = orders.map(order =>
         <OrderBox item={order} deleteOrder={deleteOrder} key={order.id} />
@@ -171,17 +195,14 @@ const RestoApp = () => {
         <div>
             <h1 className="text-2xl py-7 text-center">Restaurant App</h1>            
             <ItemForm addItem={addItem} updateItem={updateItem} item={item} onEdit={onEdit} cancel={cancel} />
-            <div className="mt-4">
-                <ButtonSecondary className="mr-2" onClick={() => setFilter('All')}>All</ButtonSecondary>
-                <ButtonSecondary className="mr-2" onClick={() => setFilter('Food')}>Food</ButtonSecondary>
-                <ButtonSecondary onClick={() => setFilter('Drink')}>Drink</ButtonSecondary>
-            </div>
+            <Filters setFilter={setFilter} search={search} setSearch={setSearch} />
             <div className="mt-4 grid grid-cols-2 gap-2 divide-x-2">
                 <div className="p-2">
                     <h3 className="text-gray-300">Items</h3>
                     <div className="grid grid-cols-3 gap-0 place-items-center">
-                        {itemsDisplay}
+                        {paginatedDisplay}
                     </div>
+                    {itemsDisplay.length>perPage && <Pagination page={page} totalPages={totalPages} setPage={setPage} />}
                 </div>
                 <div className="pt-2 pl-4">
                     <h3 className="text-gray-300">Cart</h3>

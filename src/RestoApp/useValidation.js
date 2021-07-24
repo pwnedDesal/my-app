@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-const useValidations = ({ schema, initValues, handler }) => {
+const useValidation = ({ schema, initValues, handler }) => {
 
   const [fields, setFields] = useState({...initValues})
 
@@ -94,4 +94,4 @@ const useValidations = ({ schema, initValues, handler }) => {
 
 }
 
-export default useValidations
+export default useValidation

@@ -2,7 +2,7 @@ import InputField from '../components/InputField'
 import ButtonPrimary from '../components/ButtonPrimary'
 // import { useEffect, useState } from 'react'
 
-import useValidations from './useValidations'
+import useValidation from './useValidation'
 
 const ItemForm = ({item, addItem, updateItem, onEdit, cancel}) => {
 
@@ -31,7 +31,7 @@ const ItemForm = ({item, addItem, updateItem, onEdit, cancel}) => {
         errors,
         submitForm,
         resetValidations
-    } = useValidations({
+    } = useValidation({
         schema,
         initValues: item,
         handler: addItem
