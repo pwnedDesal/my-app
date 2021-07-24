@@ -1,63 +1,46 @@
 import InputField from '../components/InputField'
 import ButtonPrimary from '../components/ButtonPrimary'
-import { useEffect, useState } from 'react'
+// import { useEffect, useState } from 'react'
+
+import useValidations from './useValidations'
 
 const ItemForm = ({item, addItem, updateItem, onEdit, cancel}) => {
 
-    const [formItem, setFormItem] = useState(item)
-    const [validations, setValidations] = useState({
-        name: false,
-        category: false,
-        price: false,
-        image: false,
-    })
-    const [isFormValid, setIsFormValid] = useState(false)
-
-    const validate = (validateForm,field = null) => {
-
-        const updateValidations = {...validations}
-
-        if (field!=null) { // validate single field only
-            updateValidations[field] = validateForm[field] === ""
-        } else {
-            let valids = []
-            Object.keys(updateValidations).forEach(function(key) {
-                const isValid = validateForm[key] !== ""
-                valids.push(isValid)
-                updateValidations[key] = !isValid
-            });
-            setIsFormValid(valids.every(valid => valid))      
+    const schema = {
+        name: {
+            required: true,
+            message: "Name is required",
+        },
+        category: {
+            required: true,
+            message: "Category is required"
+        },
+        price: {
+            required: true,
+            message: "Price is required"
+        },
+        image: {
+            required: false,
+            message: "Image is required"
         }
-
-        setValidations(updateValidations)
     }
 
-    const handleChange = (e) => {
-        const formItemCopy = {...formItem}
-        formItemCopy[e.target.name] = e.target.value
-        validate(formItemCopy,e.target.name)
-        setFormItem(formItemCopy)
-    }    
+    const {
+        handleField,
+        values,
+        errors,
+        submitForm,
+        resetValidations
+    } = useValidations({
+        schema,
+        initValues: item,
+        handler: addItem
+    })
 
     const cancelForm = () => {
-        const updateValidations = {...validations}
-
-        Object.keys(updateValidations).forEach(function(key) {
-            updateValidations[key] = false
-        });
-
-        setIsFormValid(false)
-        setValidations(updateValidations)
-        
+        resetValidations()
         cancel()
     }
-
-    useEffect(() => {
-        // No need to check if item is not undefined or null since it has properties with initial values
-        setFormItem(item)
-        if (item.id>0) validate(item)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[item])
 
     return (
         <div className="grid grid-cols-5 gap-2">
@@ -66,53 +49,50 @@ const ItemForm = ({item, addItem, updateItem, onEdit, cancel}) => {
                 type="text"
                 label="Name"
                 name="name"
-                value={formItem.name}
-                onChange={handleChange}
-                invalid={validations.name}
-                invalidMessage="Name is required"
+                value={values.name}
+                onChange={handleField}
+                invalid={errors.name?.invalid}
+                invalidMessage={errors.name.message}
             />
             <InputField
                 className=""
                 type="text"
                 label="Category"
                 name="category"
-                value={formItem.category}
-                onChange={handleChange}
-                invalid={validations.category}
-                invalidMessage="Category is required"                
+                value={values.category}
+                onChange={handleField}
+                invalid={errors.category?.invalid}
+                invalidMessage={errors.category.message}            
             />
             <InputField
                 className=""
                 type="number"
                 label="Price"
                 name="price"
-                value={formItem.price}
-                onChange={handleChange}
-                invalid={validations.price}
-                invalidMessage="Price is required"                
+                value={values.price}
+                onChange={handleField}
+                invalid={errors.price?.invalid}
+                invalidMessage={errors.price.message}
             />
             <InputField
                 className=""
                 type="text"
                 label="Image"
                 name="image"
-                value={formItem.image}
-                onChange={handleChange}
-                invalid={validations.image}
-                invalidMessage="Image is required"                
+                value={values.image}
+                onChange={handleField}
+                invalid={errors.image?.invalid}
+                invalidMessage={errors.image.message}                
             />
             {
                 onEdit
                 ?
                 <div>
-                    <ButtonPrimary className="mt-4" onClick={() => updateItem(formItem)}>Update</ButtonPrimary>
+                    <ButtonPrimary className="mt-4" onClick={() => updateItem(values)}>Update</ButtonPrimary>
                     <ButtonPrimary className="mt-4 ml-1" onClick={cancelForm}>Cancel</ButtonPrimary>
                 </div>
                 :
-                <ButtonPrimary className="mt-4" onClick={() => {
-                    validate(formItem)
-                    if (isFormValid) addItem(formItem)
-                }}>Add</ButtonPrimary>
+                <ButtonPrimary className="mt-4" onClick={() => submitForm()}>Add</ButtonPrimary>
             }
         </div>
     )
