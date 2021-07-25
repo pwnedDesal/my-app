@@ -29,10 +29,9 @@ const Pagination = ({ page, totalPages, setPage }) => {
   } 
 
   return (
-    <div className="flex mt-4">
-      <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-        <div>
-          <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+    <div className="mt-4">
+      <div className="flex items-center justify-between">
+          <nav className="mx-auto relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
             <a
                 href="#!"
                 className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 text-sm font-medium text-gray-300 hover:bg-yellow-800"
@@ -69,7 +68,6 @@ const Pagination = ({ page, totalPages, setPage }) => {
                 <ChevronDoubleRightIcon className="h-5 w-5" aria-hidden="true" />
             </a>                    
           </nav>
-        </div>
       </div>
     </div>
   )
