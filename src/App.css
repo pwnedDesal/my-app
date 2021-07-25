@@ -1,3 +1,7 @@
+*, html {
+  box-sizing: border-box;
+}
+
 body {
   background-color: #282c34;
 }
@@ -49,13 +53,13 @@ body {
 
 .items > .item {
   flex-grow: 1;
-  width: 30%;
+  width: calc(100% / 3);
 }
 
 .item {
   border: 1px solid #505050;
   width: 280px;
-  height: 160px;
+  height: 220px;
   padding-top: 5px;
   overflow: auto;
 }
